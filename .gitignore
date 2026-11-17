@@ -1,0 +1,3 @@
+encrfile.key
+*.tmp
+__pycache__/
