@@ -28,18 +28,24 @@ def decrypt_file(path, aesgcm):
     return True
 
 
-def main():
-    print("==========NCrypt Restore Software==========")
-    print("This software will decrypt files secured by PyGrab in the directory you specify.")
-    Desired_path = input("Please, enter the path to the directory you want to restore: ").strip().strip('"')
+def main(Desired_path=None):
+    #Terminal: no folder given, so ask for one. PyGUI passes the folder in and skips the prompts.
+    ask = Desired_path is None
+    if ask:
+        print("==========NCrypt Restore Software==========")
+        print("This software will decrypt files secured by PyGrab in the directory you specify.")
+        Desired_path = input("Please, enter the path to the directory you want to restore: ").strip().strip('"')
 
-    if not os.path.isdir(Desired_path):
-        print(f"'{Desired_path}' is not a directory.")
-        input("Press Enter to exit.")
-        return
+        if not os.path.isdir(Desired_path):
+            print(f"'{Desired_path}' is not a directory.")
+            input("Press Enter to exit.")
+            return
 
     key_path = os.path.join(Desired_path, KEY_NAME)
     if not os.path.isfile(key_path):
+        if not ask:
+            print(f"No {KEY_NAME} found in {Desired_path}. Nothing was changed...")
+            return
         key_path = input(f"No {KEY_NAME} found there. Enter the full path to the key file: ").strip().strip('"')
         if not os.path.isfile(key_path):
             print("Key file not found. Nothing was changed.")

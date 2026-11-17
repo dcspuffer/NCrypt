@@ -53,23 +53,25 @@ def encrypt_file(path, aesgcm):
     print(f"---{os.path.basename(path)} has been secured.---")
 
 
-def main():
-    print("==========NCrpyt Securing Software==========")
-    print("This software will encrypt all files in the directory you specify.")
-    Desired_path = input("Please, enter the path to the directory you want to secure: ").strip().strip('"')
+def main(Desired_path=None):
+    #Terminal: no folder given, so ask for one. PyGUI passes the folder in and skips the prompts.
+    if Desired_path is None:
+        print("==========NCrpyt Securing Software==========")
+        print("This software will encrypt all files in the directory you specify.")
+        Desired_path = input("Please, enter the path to the directory you want to secure: ").strip().strip('"')
 
-    if not os.path.isdir(Desired_path):
-        print(f"'{Desired_path}' is not a directory.")
-        input("Press Enter to exit.")
-        return
+        if not os.path.isdir(Desired_path):
+            print(f"'{Desired_path}' is not a directory.")
+            input("Press Enter to exit.")
+            return
 
-    Confirmation = input(f"Are you sure you want to secure the files in {Desired_path}? (y/N) ") #Asks perm
+        Confirmation = input(f"Are you sure you want to secure the files in {Desired_path}? (y/N) ") #Asks perm
 
-    #Cancel ops if user doesn't want to proceed
-    if Confirmation.strip().lower() not in ("y", "yes"):
-        print("Execution cancelled.")
-        input("Press Enter to exit.")
-        return
+        #Cancel ops if user doesn't want to proceed
+        if Confirmation.strip().lower() not in ("y", "yes"):
+            print("Execution cancelled.")
+            input("Press Enter to exit.")
+            return
 
     key_path = os.path.join(Desired_path, KEY_NAME)
     files = []
